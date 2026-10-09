@@ -333,14 +333,24 @@ footer{background:var(--navy3);color:#fff;padding:90px 40px 30px;position:relati
   #cursor{display:none}
   .toast{left:16px;right:16px;transform:translateY(16px);text-align:center;bottom:84px}.toast.on{transform:none}
 }
-@media (max-width:560px){.fcols{grid-template-columns:1fr 1fr}.fcols>div:first-child{grid-column:1/-1}.hcta{gap:10px}}
+@media (max-width:560px){.fcols{grid-template-columns:1fr 1fr}.fcols>div:first-child{grid-column:1/-1}.hcta{gap:10px}.hstats div:nth-child(3){display:block}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.steps::after{transform:scaleX(1)}}
 @media (max-width:980px){.people{grid-template-columns:1fr}.mapcard{height:240px}.ct .tx .num{font-size:16px}.ct .wcard{padding:18px 20px}}
 @media (max-width:980px){
-  .hero{height:auto;min-height:0;padding:410px 18px 26px;display:flex;flex-direction:column;gap:22px}
-  .hero .hc,.hero   .hero .hc{max-width:none}
-  .hbg svg{top:86px;height:300px;width:100%;-webkit-mask-image:linear-gradient(180deg,#000 80%,transparent);mask-image:linear-gradient(180deg,#000 80%,transparent)}
-  .hero .hstats{order:3}
+  .hero{height:auto;min-height:0;padding:402px 18px 28px;display:flex;flex-direction:column;gap:24px}
+  .hero .hc,.hero .hstats{position:static;left:auto;right:auto;top:auto;bottom:auto;transform:none;width:auto}
+  .hero .hc{max-width:none}
+  .hbg svg{top:84px;height:300px;width:100%;-webkit-mask-image:linear-gradient(180deg,#000 80%,transparent);mask-image:linear-gradient(180deg,#000 80%,transparent)}
+  .hero .hstats{grid-template-columns:1fr 1fr;gap:10px}
+  .hero .hstats div,.hero .hstats div:nth-child(3){display:block}
+  .hero .hstats b{font-size:16px}.hero .hstats span{font-size:13px}
+  /* el boton de WhatsApp no debe tapar texto: mas pequeno y con margen inferior en secciones */
+  .wa{width:52px;height:52px;right:12px;bottom:12px;opacity:.96}
+  .wa::after{display:none}
+  .sec{padding:76px 18px 64px}.sec#faq{padding-top:76px;padding-bottom:64px}.drop{padding:80px 18px}footer{padding:60px 18px 28px}
+  .head{margin-bottom:28px}
+  .wa{transition:opacity .3s,transform .3s}.wa.sc{opacity:0;pointer-events:none;transform:scale(.8) translateY(8px)}
+  .head p{padding-right:0}
 }
 </style>
 </head>
@@ -714,7 +724,8 @@ function onScroll(){
   prog.style.transform=`scaleX(${max>0?y/max:0})`;
   let c='inicio';ids.forEach(id=>{const e=document.getElementById(id);if(e&&e.getBoundingClientRect().top<vh*.45)c=id});
   links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+c));galScroll();tkk=false}
-addEventListener('scroll',()=>{if(!tkk){tkk=true;requestAnimationFrame(onScroll)}},{passive:true});
+let wst=null;const waEl=document.querySelector('.wa');
+addEventListener('scroll',()=>{if(!tkk){tkk=true;requestAnimationFrame(onScroll)}if(innerWidth<=980&&waEl){waEl.classList.add('sc');clearTimeout(wst);wst=setTimeout(()=>waEl.classList.remove('sc'),900)}},{passive:true});
 function fit(){const s=$('#hugeT'),w=$('#huge').clientWidth;s.style.fontSize='100px';s.style.fontSize=(100*w/s.scrollWidth*.995)+'px'}
 addEventListener('resize',()=>{fit();sizeGal();onScroll()});
 
